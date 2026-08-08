@@ -14,58 +14,82 @@ import org.apache.axis.spring.boot.handler.InvokeHandler;
 
 
 
+/**
+ * Utility methods for invoking Apache Axis web-service operations.
+ * <p>
+ * Provides convenience methods to build an Axis {@link Call} from a set of
+ * {@link Parameter}s and either invoke it directly or delegate the invocation to a
+ * custom {@link InvokeHandler}.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
+ */
 public final class AxisClientUtils {
 
-	//实例化Service对象
+	// Shared Axis Service instance used to create Call objects.
 	protected static Service service = new Service();
-	
+
 	/**
-	 * @param endpoint		: 调用地址
-	 * @param optName		: WSDL里面描述的操作名
-	 * @param usesoap		: 是否使用SOAP模式
-	 * @param returnType	: 返回参数类型，如：org.apache.axis.encoding.XMLType.XSD_STRING
-	 * @param params		: 参数
-	 * @return 返回结果
-	 * @throws ServiceException ServiceException
-	 * @throws MalformedURLException MalformedURLException
-	 * @throws RemoteException RemoteException
+	 * Invokes an Axis web-service operation, invoking the {@link Call} directly.
+	 * @param endpoint the target endpoint address of the service
+	 * @param optName the operation name described in the WSDL
+	 * @param usesoap whether to use SOAP action mode
+	 * @param returnType the return type, e.g.
+	 *        {@code org.apache.axis.encoding.XMLType.XSD_STRING}
+	 * @param params the call parameters
+	 * @return the invocation result
+	 * @throws ServiceException if the {@link Call} cannot be created
+	 * @throws MalformedURLException if the endpoint is not a valid URL
+	 * @throws RemoteException if the invocation fails
 	 */
 	public static Object invoke(String endpoint, QName optName,boolean usesoap,QName returnType,Parameter ... params) throws ServiceException, MalformedURLException, RemoteException{
-		//创建调用对象
+		// Create the Call object.
 		Call call = (Call) service.createCall();
 		call.setTargetEndpointAddress(new URL(endpoint));
-		// WSDL里面描述的操作名
+		// The operation name described in the WSDL.
 		call.setOperationName(optName);
-		//设置参数
+		// Configure parameters.
 		Object[] args = new Object[params.length];
 		for (int i = 0; i < params.length; i++) {
 			Parameter param = params[i];
-			//组织参数
+			// Assemble the argument value.
 			args[i] = param.getValue();
-			//设置远程调用接口类型
+			// Register the remote call parameter type.
 			call.addParameter(param.getName(), param.getXmlType(), param.getMode());
 		}
 		call.setReturnType(returnType);
 		call.setUseSOAPAction(usesoap);
-		//执行调用，并返回结果
+		// Invoke the call and return the result.
 		return call.invoke(args);
 	}
-	
+
+	/**
+	 * Invokes an Axis web-service operation, delegating the actual invocation to the
+	 * supplied {@link InvokeHandler}.
+	 * @param targetURL the target endpoint address of the service
+	 * @param handler the handler used to pre-process and invoke the call
+	 * @param params the call parameters
+	 * @param <T> the result type returned by the handler
+	 * @return the invocation result
+	 * @throws ServiceException if the {@link Call} cannot be created
+	 * @throws MalformedURLException if the target URL is not valid
+	 * @throws RemoteException if the invocation fails
+	 */
 	public static <T> T invoke(String targetURL,InvokeHandler<T> handler,Parameter ... params) throws ServiceException, MalformedURLException, RemoteException{
-		//创建调用对象
+		// Create the Call object.
 		Call call = (Call) service.createCall();
 		call.setTargetEndpointAddress(new URL(targetURL));
-		//设置参数
+		// Configure parameters.
 		Object[] args = new Object[params.length];
 		for (int i = 0; i < params.length; i++) {
 			Parameter paramModel = params[i];
-			//组织参数
+			// Assemble the argument value.
 			args[i] = paramModel.getValue();
-			//设置远程调用接口类型
+			// Register the remote call parameter type.
 			call.addParameter(paramModel.getName(), paramModel.getXmlType(), paramModel.getMode());
 		}
-		//执行调用，并返回结果
+		// Invoke via the handler and return the result.
 		return handler.handleCall(call,args);
 	}
-	
+
 }

@@ -10,7 +10,7 @@ import org.apache.axis.client.Service;
  * Default {@link InvokeHandler} implementation that performs no service pre-processing
  * and invokes the Axis {@link Call} directly with the supplied arguments.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class DefaultInvokeHandler implements InvokeHandler<Object> {

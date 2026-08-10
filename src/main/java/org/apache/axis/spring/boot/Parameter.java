@@ -7,7 +7,7 @@ import javax.xml.rpc.ParameterMode;
  * Represents a single Apache Axis web-service call parameter, capturing its name, XML
  * type, value and parameter mode (in/out/inout).
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class Parameter {

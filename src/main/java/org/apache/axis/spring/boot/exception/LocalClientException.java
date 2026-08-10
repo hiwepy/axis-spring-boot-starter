@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
  * Represents a local client-side exception raised during an Apache Axis web-service
  * invocation.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class LocalClientException extends RemoteException {

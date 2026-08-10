@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * <p>Verifies both constructors, all getters/setters and the
  * {@code ParameterMode.IN} default returned by {@link Parameter#getMode()}.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @DisplayName("Parameter Tests")

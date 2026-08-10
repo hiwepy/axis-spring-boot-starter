@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
  * test and restored afterwards so the production field is never mutated beyond
  * the test run.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @DisplayName("AxisClientUtils Tests")
